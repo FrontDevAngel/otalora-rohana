@@ -1,0 +1,94 @@
+.woocommerce{
+
+    .widget-title{
+        font-family: $Josefin;
+        font-weight: bold;
+        border: 0 transparent none;
+        padding:0px;
+        font-style: italic;
+    }
+
+    #right-sidebar.sidebar-container{
+
+        width:100%;
+        padding:0;
+
+        .widget_product_categories{
+            li{
+
+                &.current-cat{
+                    & > .count{
+                        display: none;
+                    }
+
+                    ul{
+                        margin-left: 0;
+                        padding-left: 10px;
+                    }
+                }
+
+                &:hover{
+                    span{
+                        border:0 transparent none;
+                    }
+                }
+
+                a{
+                    &:hover{
+                        color:#CEC9C9;
+
+                        & ~ .count{
+                            border:0 transparent none;
+                            color:#CEC9C9;
+                        }
+                    }
+                }
+
+                a{
+                    display: inline-block;
+                    padding:0;
+                    &:before{
+                        display:none;
+                    }
+
+                }
+                
+                span{
+                    display: inline-grid;
+                    align-items: center;
+                    position:relative;
+                    background:transparent;
+
+                    &:before{
+                        content: "/";
+                        position: absolute;
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .widget_price_filter{
+            .ui-slider {
+
+                .ui-slider-handle{
+                    background-color: black;
+                }
+
+                .ui-slider-range{
+                    background-color:black;
+                }
+
+            }
+
+            .price_slider_amount button[type="submit"]{
+                background-color: transparent;
+                color:#CEC9C9;
+                &:hover{
+                    background-color: transparent;
+                    color:black;
+                }
+            }
+        }
+    }
+}

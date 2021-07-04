@@ -1,0 +1,21 @@
+.effect-bubba {
+  .ma-image-hover-content {
+    height: 100%;
+    display: grid;
+    align-items: center;
+
+    .ma-el-image-hover-desc {
+      display: none;
+    }
+
+    .ma-el-image-hover-title {
+      padding-top: 0;
+      opacity: 0;
+    }
+  }
+  &:hover {
+    .ma-el-image-hover-title {
+      opacity: 1;
+    }
+  }
+}

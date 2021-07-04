@@ -1,0 +1,5 @@
+<svg id="anadir" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <path id="Trazado_1" data-name="Trazado 1" d="M16,32A16,16,0,1,1,32,16,16.018,16.018,0,0,1,16,32ZM16,2A14,14,0,1,0,30,16,14.015,14.015,0,0,0,16,2Zm0,0" fill="#fff"/>
+  <path id="Trazado_2" data-name="Trazado 2" d="M143,242H129a1,1,0,0,1,0-2h14a1,1,0,0,1,0,2Zm0,0" transform="translate(-120 -225)" fill="#fff"/>
+  <path id="Trazado_3" data-name="Trazado 3" d="M241,144a1,1,0,0,1-1-1V129a1,1,0,0,1,2,0v14A1,1,0,0,1,241,144Zm0,0" transform="translate(-225 -120)" fill="#fff"/>
+</svg>
