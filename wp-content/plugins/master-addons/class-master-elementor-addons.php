@@ -6,6 +6,7 @@ use MasterAddons\Admin\Dashboard\Master_Addons_Admin_Settings;
 use MasterAddons\Admin\Dashboard\Addons\Extensions\JLTMA_Addon_Extensions;
 use MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Elements;
 use MasterAddons\Inc\Helper\Master_Addons_Helper;
+use MasterAddons\Inc\Classes\Master_Addons_White_Label;
 
 if (!defined('ABSPATH')) {
 	exit;
@@ -88,6 +89,7 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 			// Override Freemius Filters
 			ma_el_fs()->add_filter('support_forum_submenu', [$this, 'jltma_override_support_menu_text']);
+			ma_el_fs()->add_filter('support_forum_url', [$this, 'jltma_support_forum_url']);
 		}
 
 
@@ -107,6 +109,24 @@ if (!class_exists('Master_Elementor_Addons')) {
 		}
 
 
+		/**
+		 * Support Forum URL
+		 *
+		 * @param [type] $support_url and Pro Support
+		 *
+		 * @return void
+		 */
+		public function jltma_support_forum_url($support_url)
+		{
+			if (ma_el_fs()->is_premium()) {
+				$support_url = 'https://master-addons.com/contact-us/';
+			} else {
+				$support_url = 'https://wordpress.org/support/plugin/master-addons/';
+			}
+			return $support_url;
+		}
+
+
 		public static function jltma_elementor()
 		{
 			return \Elementor\Plugin::$instance;
@@ -121,6 +141,8 @@ if (!class_exists('Master_Elementor_Addons')) {
 		// Activation Hook
 		public static function jltma_plugin_activation_hook()
 		{
+			$jltma_white_label_default_options = Master_Addons_White_Label::jltma_white_label_default_options();
+			update_option('jltma_white_label_settings', $jltma_white_label_default_options);
 
 			if (get_option('jltma_activation_time') === false)
 				update_option('jltma_activation_time', strtotime("now"));
@@ -213,6 +235,10 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 			if (!defined('MELA_IMAGE_DIR')) {
 				define('MELA_IMAGE_DIR', self::mela_plugin_dir_url() . '/assets/images/');
+			}
+
+			if (!defined('JLTMA_ASSETS')) {
+				define('JLTMA_ASSETS', self::mela_plugin_url() . '/assets/');
 			}
 
 			if (!defined('MELA_ADMIN_ASSETS')) {
@@ -440,9 +466,9 @@ if (!class_exists('Master_Elementor_Addons')) {
 					switch_to_blog($blog_id->blog_id);
 
 					$widget_manager = Master_Addons_Helper::jltma_elementor()->widgets_manager;
-
-					ksort(JLTMA_Addon_Elements::$jltma_elements['jltma-addons']['elements']);
-					foreach (JLTMA_Addon_Elements::$jltma_elements['jltma-addons']['elements'] as $key =>  $widget) {
+					$jltma_all_addons = Master_Addons_Admin_Settings::jltma_merged_addons_array();
+					ksort($jltma_all_addons);
+					foreach ($jltma_all_addons as $key =>  $widget) {
 						if (isset($activated_widgets[$widget['key']]) && $activated_widgets[$widget['key']] == true) {
 
 							$widget_file = MAAD_EL_ADDONS . $widget['key'] . '/' . $widget['key'] . '.php';
@@ -467,9 +493,9 @@ if (!class_exists('Master_Elementor_Addons')) {
 			} else {
 
 				$widget_manager = Master_Addons_Helper::jltma_elementor()->widgets_manager;
-
-				ksort(JLTMA_Addon_Elements::$jltma_elements['jltma-addons']['elements']);
-				foreach (JLTMA_Addon_Elements::$jltma_elements['jltma-addons']['elements'] as $key =>  $widget) {
+				$jltma_all_addons = Master_Addons_Admin_Settings::jltma_merged_addons_array();
+				ksort($jltma_all_addons);
+				foreach ($jltma_all_addons as $key =>  $widget) {
 					if (isset($activated_widgets[$widget['key']]) && $activated_widgets[$widget['key']] == true) {
 
 						$widget_file = MAAD_EL_ADDONS . $widget['key'] . '/' . $widget['key'] . '.php';
@@ -691,7 +717,7 @@ if (!class_exists('Master_Elementor_Addons')) {
 			include_once MELA_PLUGIN_PATH . '/inc/classes/rollback.php';
 
 			//White Label
-			// include_once MELA_PLUGIN_PATH . '/inc/classes/white-label.php';
+			include_once MELA_PLUGIN_PATH . '/inc/classes/white-label.php';
 
 			// Templates
 			require_once MELA_PLUGIN_PATH . '/inc/templates/templates.php';

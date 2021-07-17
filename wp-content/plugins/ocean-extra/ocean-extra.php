@@ -3,11 +3,11 @@
  * Plugin Name:			Ocean Extra
  * Plugin URI:			https://oceanwp.org/extension/ocean-extra/
  * Description:			Add extra features like widgets, metaboxes, import/export and a panel to activate the premium extensions.
- * Version:				1.7.2
+ * Version:				1.7.7
  * Author:				OceanWP
  * Author URI:			https://oceanwp.org/
  * Requires at least:	5.3
- * Tested up to:		5.6.1
+ * Tested up to:		5.7.2
  *
  * Text Domain: ocean-extra
  * Domain Path: /languages
@@ -86,7 +86,7 @@ final class Ocean_Extra {
 		$this->token 			= 'ocean-extra';
 		$this->plugin_url 		= plugin_dir_url( __FILE__ );
 		$this->plugin_path 		= plugin_dir_path( __FILE__ );
-		$this->version 			= '1.7.2';
+		$this->version 			= '1.7.7';
 
 		define( 'OE_URL', $this->plugin_url );
 		define( 'OE_PATH', $this->plugin_path );
@@ -208,6 +208,40 @@ final class Ocean_Extra {
 	private function _log_version_number() {
 		// Log the version number.
 		update_option( $this->token . '-version', $this->version );
+	}
+
+	/**
+	 * Return the correct icon
+	 *
+	 * @param string  $icon        Icon class.
+	 * @param bool    $echo        Print string.
+	 * @param string  $class       Icon class.
+	 * @param string  $title       Optional SVG title.
+	 * @param string  $desc        Optional SVG description.
+	 * @param string  $aria_hidden Optional SVG description.
+	 * @param boolean $fallback    Fallback icon.
+	 *
+	 * @since 1.7.6
+	 * @return string OceanWP Icon.
+	 */
+	public static function oe_svg_icon( $icon, $echo = true, $class = '', $title = '', $desc = '', $aria_hidden = true, $fallback = false ) {
+
+		// Get icon class.
+		$theme_icons = oceanwp_theme_icons();
+
+		if ( function_exists( 'oceanwp_icon' ) ) {
+			return oceanwp_icon( $icon, $echo, $class, $title, $desc, $aria_hidden, $fallback );
+		} else {
+
+			if( true === $echo ) {
+				echo '<i class="' . $class . ' ' . $theme_icons[ $icon ][ 'fai' ] . '"' . $aria_hidden . ' role="img"></i>';
+			} else {
+				return '<i class="' . $class . ' ' . $theme_icons[ $icon ][ 'fai' ] . '"' . $aria_hidden . ' role="img"></i>';
+			}
+
+			return;
+
+		}
 	}
 
 	/**
@@ -392,7 +426,7 @@ final class Ocean_Extra {
 		if ( is_singular() ) {
 			$title = get_the_title();
 		} else {
-			$title = oceanwp_title();
+			$title = oceanwp_has_page_title();
 		}
 
 		// Description

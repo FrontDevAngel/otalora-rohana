@@ -4,17 +4,20 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc18900f6a542da4a0b530114484e7cc6
+class ComposerStaticInit06e3240e7f185972289dfc9be7883e23
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Polyfill\\Php72\\' => 23,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
         ),
         'P' => 
         array (
@@ -27,13 +30,17 @@ class ComposerStaticInitc18900f6a542da4a0b530114484e7cc6
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Symfony\\Polyfill\\Php72\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
-        'Symfony\\Component\\Yaml\\' => 
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/yaml',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
+        ),
+        'Symfony\\Polyfill\\Intl\\Idn\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
         ),
         'Psr\\Log\\' => 
         array (
@@ -56,12 +63,17 @@ class ComposerStaticInitc18900f6a542da4a0b530114484e7cc6
         ),
     );
 
+    public static $classMap = array (
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc18900f6a542da4a0b530114484e7cc6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc18900f6a542da4a0b530114484e7cc6::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc18900f6a542da4a0b530114484e7cc6::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit06e3240e7f185972289dfc9be7883e23::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit06e3240e7f185972289dfc9be7883e23::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit06e3240e7f185972289dfc9be7883e23::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit06e3240e7f185972289dfc9be7883e23::$classMap;
 
         }, null, ClassLoader::class);
     }

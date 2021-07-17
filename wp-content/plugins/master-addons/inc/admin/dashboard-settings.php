@@ -46,6 +46,8 @@ class Master_Addons_Admin_Settings
 		add_action('admin_menu', [$this, 'master_addons_admin_menu'],  '', 10);
 		add_action('network_admin_menu', [$this, 'master_addons_admin_menu'],  '', 10);
 		add_action('admin_enqueue_scripts', [$this, 'master_addons_el_admin_scripts'], 99);
+		add_action('admin_head', [$this, 'jltma_admin_head_script']);
+
 
 		// Master Addons Elements
 		add_action('wp_ajax_master_addons_save_elements_settings', [$this, 'master_addons_save_elements_settings']);
@@ -91,15 +93,56 @@ class Master_Addons_Admin_Settings
 	// Main Menu
 	public function master_addons_admin_menu()
 	{
+		$jltma_white_label_setting = jltma_get_options('jltma_white_label_settings');
+		$image_id = jltma_check_options($jltma_white_label_setting['jltma_wl_plugin_logo']);
+
+		if ($image = wp_get_attachment_image_src($image_id)) {
+			$jltma_logo_image = $image[0];
+		} else {
+			$jltma_logo_image = MELA_IMAGE_DIR . 'icon.png';
+		}
+		$page_title = (isset($jltma_white_label_setting['jltma_wl_plugin_menu_label']) && $jltma_white_label_setting['jltma_wl_plugin_menu_label']) ? $jltma_white_label_setting['jltma_wl_plugin_menu_label'] : __('Master Addons for Elementor', MELA_TD);
+		$menut_label = (isset($jltma_white_label_setting['jltma_wl_plugin_menu_label']) && $jltma_white_label_setting['jltma_wl_plugin_menu_label']) ? $jltma_white_label_setting['jltma_wl_plugin_menu_label'] : __('Master Addons', MELA_TD);
 		add_menu_page(
-			esc_html__('Master Addons for Elementor', MELA_TD), // Page Title
-			esc_html__('Master Addons', MELA_TD),    // Menu Title
+			$page_title, // Page Title
+			$menut_label,    // Menu Title
 			'manage_options',
 			'master-addons-settings',
 			[$this, 'master_addons_el_page_content'],
-			MELA_IMAGE_DIR . 'icon.png',
+			$jltma_logo_image,
 			57
 		);
+	}
+
+	public function jltma_admin_head_script()
+	{
+		$jltma_white_label_setting 	= jltma_get_options('jltma_white_label_settings');
+		$image_id 					= jltma_check_options($jltma_white_label_setting['jltma_wl_plugin_logo']);
+		if ($image = wp_get_attachment_image_src($image_id)) {
+			$jltma_logo_image = $image[0];
+		} else {
+			$jltma_logo_image = MELA_IMAGE_DIR . 'icon.png';
+		}
+		if ($image_id) { ?>
+			<style>
+				.svg .wp-badge.welcome__logo {
+					background: url('<?php echo $jltma_logo_image; ?>') left center no-repeat;
+				}
+
+				#adminmenu li.wp-has-current-submenu .wp-menu-image img {
+					width: 16px;
+					height: 25px;
+				}
+
+				.master_addons .header .ma_el_logo .wp-badge {
+					width: none;
+				}
+
+				#adminmenu .wp-menu-image img {
+					width: 20px;
+				}
+			</style>
+<?php }
 	}
 
 
@@ -117,6 +160,9 @@ class Master_Addons_Admin_Settings
 			wp_enqueue_style('master-addons-el-switch', MELA_ADMIN_ASSETS . 'css/switch.css');
 
 			//JS
+			if (!did_action('wp_enqueue_media')) {
+				wp_enqueue_media();
+			}
 			wp_enqueue_script('master-addons-el-welcome-tabs', MELA_ADMIN_ASSETS . 'js/welcome-tabs.js', ['jquery'], MELA_VERSION, true);
 			wp_enqueue_script('sweetalert', MELA_ADMIN_ASSETS . 'js/sweetalert2.min.js', ['jquery', 'master-addons-el-admin'], MELA_VERSION, true);
 			wp_enqueue_script('master-addons-el-admin', MELA_ADMIN_ASSETS . 'js/master-addons-admin.js', ['jquery'], MELA_VERSION, true);
@@ -130,7 +176,7 @@ class Master_Addons_Admin_Settings
 
 				'home_url'  => home_url(),
 				'rollback' => [
-					'rollback_confirm' => __('Are you sure you want to reinstall version ' . JLTMA_STABLE_VERSION . ' ?', MELA_TD),
+					'rollback_confirm' 	=> __('Are you sure you want to reinstall version ' . JLTMA_STABLE_VERSION . ' ?', MELA_TD),
 					'rollback_to_previous_version' => __('Rollback to Previous Version', MELA_TD),
 					'yes' => __('Yes', MELA_TD),
 					'cancel' => __('Cancel', MELA_TD),
@@ -187,6 +233,20 @@ class Master_Addons_Admin_Settings
 		}
 
 		return $jltma_new_widgets;
+	}
+
+	// Merged All Addon Elements
+	public static function jltma_merged_addons_array()
+	{
+		// Separated All Addons on new Format
+		// $jltma_new_merged_widgets = [];
+		$jltma_new_merged_widgets1 = JLTMA_Addon_Elements::$jltma_elements['jltma-addons']['elements'];
+		$jltma_new_merged_widgets2 = JLTMA_Addon_Forms::$jltma_forms['jltma-forms']['elements'];
+		$jltma_new_merged_widgets3 = JLTMA_Addon_Marketing::$jltma_marketing['jltma-marketing']['elements'];
+
+		$jltma_merged_addons = array_merge($jltma_new_merged_widgets1, $jltma_new_merged_widgets2, $jltma_new_merged_widgets3);
+
+		return $jltma_merged_addons;
 	}
 
 	// Extensions Array

@@ -286,22 +286,6 @@ class Advanced_Accordion extends Widget_Base
 			$repeater->add_control(
 				'single_title_content_color_pro',
 				[
-					'label'             => esc_html__('Title Background Color', MELA_TD),
-					'type' 				=> Controls_Manager::CHOOSE,
-					'options' 			=> [
-						'1' => [
-							'title' => esc_html__('', MELA_TD),
-							'icon' => 'fa fa-unlock-alt',
-						],
-					],
-					'default' => '1',
-					'description' => '<span class="pro-feature"> Upgrade to  <a href="' . ma_el_fs()->get_upgrade_url() . '" target="_blank">Pro Version</a> unlock this Option.</span>'
-				]
-			);
-
-			$repeater->add_control(
-				'single_title_content_color_pro',
-				[
 					'label'                 => esc_html__('Content Color', MELA_TD),
 					'type' 				=> Controls_Manager::CHOOSE,
 					'options' 			=> [
@@ -852,6 +836,20 @@ class Advanced_Accordion extends Widget_Base
 				'selector' => '{{WRAPPER}} .ma-advanced-accordion .ma-accordion-tab-title',
 			)
 		);
+
+
+		$this->add_responsive_control(
+			'jltma_accordion_box_padding',
+			[
+				'label'                 => esc_html__('Padding', MELA_TD),
+				'type'                  => Controls_Manager::DIMENSIONS,
+				'size_units'            => ['px', 'em', '%'],
+				'selectors'             => [
+					'{{WRAPPER}} .ma-advanced-accordion .ma-accordion-tab-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 
 		/**
@@ -1491,15 +1489,15 @@ class Advanced_Accordion extends Widget_Base
 				?>
 
 					<div class="ma-accordion-item <?php echo isset($single_item_class) ? $single_item_class : ''; ?>">
-						<<?php echo $settings['title_html_tag']; ?> <?php echo $this->get_render_attribute_string($tab_title_setting_key);
+						<<?php echo tag_escape($settings['title_html_tag']); ?> <?php echo $this->get_render_attribute_string($tab_title_setting_key);
 
-																	// Premium Version Codes
-																	if (ma_el_fs()->can_use_premium_code()) {
+																				// Premium Version Codes
+																				if (ma_el_fs()->can_use_premium_code()) {
 
-																		if ($tab['single_tab_title_bg_color_show'] == 'yes') { ?> style="background-color:<?php echo $tab['single_tab_title_bg_color']; ?>;
-                                    color:<?php echo $tab['single_title_text_color']; ?>" <?php } // Premium Version Codes
+																					if ($tab['single_tab_title_bg_color_show'] == 'yes') { ?> style="background-color:<?php echo esc_attr($tab['single_tab_title_bg_color']); ?>;
+                                    color:<?php echo esc_attr($tab['single_title_text_color']); ?>" <?php } // Premium Version Codes
 
-																					} ?>>
+																							} ?>>
 							<div class="ma-accordion-title-icon">
 
 								<?php
@@ -1522,7 +1520,7 @@ class Advanced_Accordion extends Widget_Base
 								} ?>
 
 								<div class="ma-accordion-title-text">
-									<?php echo $tab['tab_title']; ?>
+									<?php echo esc_html($tab['tab_title']); ?>
 								</div>
 							</div>
 
@@ -1544,7 +1542,7 @@ class Advanced_Accordion extends Widget_Base
 							<?php }
 							} ?>
 
-						</<?php echo $settings['title_html_tag']; ?>>
+						</<?php echo tag_escape($settings['title_html_tag']); ?>>
 
 						<div <?php echo $this->get_render_attribute_string($tab_content_setting_key);
 

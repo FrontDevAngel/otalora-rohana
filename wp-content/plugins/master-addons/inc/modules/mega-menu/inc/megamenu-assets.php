@@ -86,10 +86,10 @@ class JLTMA_Megamenu_Assets
     }
 }
 
+JLTMA_Megamenu_Assets::get_instance();
 
 
-
-// Mega Menu
+// // Mega Menu
 if (!function_exists('jltma_megamenu_assets')) {
     function jltma_megamenu_assets()
     {

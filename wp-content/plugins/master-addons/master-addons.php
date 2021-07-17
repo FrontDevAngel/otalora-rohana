@@ -5,10 +5,12 @@
  * Description: Master Addons is easy and must have Elementor Addons for WordPress Page Builder. Clean, Modern, Hand crafted designed Addons blocks.
  * Plugin URI: https://master-addons.com/all-widgets/
  * Author: Jewel Theme
- * Version: 1.5.7
+ * Version: 1.6.5
  * Author URI: https://master-addons.com
  * Text Domain: mela
  * Domain Path: /languages
+ * Elementor tested up to: 3.2.5
+ * Elementor Pro tested up to: 3.1.1
  */
 // No, Direct access Sir !!!
 if ( !defined( 'ABSPATH' ) ) {
@@ -17,12 +19,16 @@ if ( !defined( 'ABSPATH' ) ) {
 $jltma_plugin_data = get_file_data( __FILE__, array(
     'Version'     => 'Version',
     'Plugin Name' => 'Plugin Name',
+    'Author'      => 'Author',
+    'Description' => 'Description',
+    'Plugin URI'  => 'Plugin URI',
 ), false );
-$jltma_plugin_name = $jltma_plugin_data['Plugin Name'];
-$jltma_plugin_version = $jltma_plugin_data['Version'];
-define( 'JLTMA_NAME', $jltma_plugin_name );
-define( 'JLTMA_PLUGIN_VERSION', $jltma_plugin_version );
-define( 'JLTMA_STABLE_VER', "1.5.6.2" );
+define( 'JLTMA_NAME', $jltma_plugin_data['Plugin Name'] );
+define( 'JLTMA_PLUGIN_DESC', $jltma_plugin_data['Description'] );
+define( 'JLTMA_PLUGIN_AUTHOR', $jltma_plugin_data['Author'] );
+define( 'JLTMA_PLUGIN_URI', $jltma_plugin_data['Plugin URI'] );
+define( 'JLTMA_PLUGIN_VERSION', $jltma_plugin_data['Version'] );
+define( 'JLTMA_STABLE_VER', "1.6.4" );
 define( 'JLTMA_BASE', plugin_basename( __FILE__ ) );
 
 if ( function_exists( 'ma_el_fs' ) ) {
@@ -44,7 +50,7 @@ if ( function_exists( 'ma_el_fs' ) ) {
                 require_once dirname( __FILE__ ) . '/lib/freemius/start.php';
                 $ma_el_fs = fs_dynamic_init( [
                     'id'              => '4015',
-                    'slug'            => 'master-addons',
+                    'slug'            => 'master-addons-pro',
                     'premium_slug'    => 'master-addons-pro',
                     'type'            => 'plugin',
                     'public_key'      => 'pk_3c9b5b4e47a06288e3500c7bf812e',

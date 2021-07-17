@@ -2,8 +2,8 @@
 Contributors: oceanwp, apprimit, wpfleek
 Tags: widgets, meta box, metaboxes, metabox, oceanwp
 Requires at least: 5.3
-Tested up to: 5.6.1
-Stable tag: 1.7.2
+Tested up to: 5.7.2
+Stable tag: 1.7.7
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -32,6 +32,31 @@ This plugin will only function with the [OceanWP](https://oceanwp.org/) theme.
 3. Custom CSS.
 
 == Changelog ==
+
+= 1.7.7 =
+- Fixed: Icon missing in About me widget.
+- Fixed: PHP Deprecated: Required parameter $output follows optional parameter $depth in menu-walker.
+
+= 1.7.6 =
+- Added: OceanWP SVG icons.
+- Added: Custom body classes in page level setting #329
+- Added: New social option in about me and social icon widget.
+- Added: New shortcode for the use of OceanWP SVG icons across website: [oceanwp_icon] - https://docs.oceanwp.org/article/779-oceanwp-icon-shortcode
+- Added: All SVG icons - https://oceanwp.org/oceanwp-svg-icons/
+- Fixed: Newsletter Widget - MailChimp failed subscription issue.
+- Fixed: Newsletter Widget - MailChimp failed subscription issue.
+
+= 1.7.5 =
+- Added: New demos
+- Fixed: Demos images missing on the setup wizard
+- Added: filter 'oe_icon_picker_image_mime_types_svg' to handle svg types.
+
+= 1.7.4 =
+- Updated: Freemius SDK version.
+- Added: New demos
+
+= 1.7.3 =
+- Added: New demos
 
 = 1.7.2 =
 - Fixed: [oceanwp_login] shortcode: logout '404 page not found' error when WooCommerce enabled.

@@ -2,7 +2,7 @@
 Contributors: jwthemeltd, litonice13, masteraddons
 Tags: elementor, elementor addon, elementor widget, clickable column, essential widget, custom css elements, after before image comparison, image hover effects, header & footer builder, template import, elementor addons, elementor extensions,  elementor modules, elementor templates, comment form builder, mega menu, header footer builder, elements, page builder addons,addons, jewletheme, masteraddons
 Requires at least: 4.0
-Tested up to: 5.6
+Tested up to: 5.7.2
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Must have and Essential Elementor Addons for speed up your Design Creativity. Custom Breakpoints, Header Footer & Comment Form Builder,Custom CSS, Custom JS, dynamic conditions etc.
 
 == Description ==
-[Master Addons](https://master-addons.com/) is a collection of Stunning and cutting edged designed Elementor Addons Pack. Have you been looking for the perfect addons for Elementor that can help you make a creative looking website? Well, you don’t have to look too far. With master-addons for elementor, you get a wide range of elements that make your ordinary-looking website into something interactable, visually appealing and a lot more reader-friendly.
+[Master Addons](https://master-addons.com/) is a collection of Stunning and cutting edged designed Elementor Addons Pack. Have you been looking for the perfect addons for Elementor that can help you make a creative looking website? Well, you don’t have to look too far. With Master Addons for Elementor, you get a wide range of elements that make your ordinary-looking website into something interactive, visually appealing and a lot more reader-friendly.
 
 
 >[All Addons](https://master-addons.com/all-widgets/) | [Support](https://master-addons.com/contact-us/) | [Docs](https://master-addons.com/docs/) | [Tutorials](https://www.youtube.com/watch?v=rdrqWa-tf6Q&list=PLqpMw0NsHXV9V6UwRniXTUkabCJtOhyIf) | [Upgrade Pro](https://master-addons.com/go/upgrade-pro/)
@@ -384,6 +384,61 @@ Paste on your Local Computer
 
 
 == Changelog ==
+= 1.6.5 (09-07-2021) =
+* Dependency: Elementor Custom Breakpoints plugin updated with latest Elementor Support
+* Tweak: Removed `Elementor\Scheme_Typography` deprecated function and updated with `Elementor\Core\Schemes\Typography`
+* Tweak: Removed `Elementor\Core\Schemes\Color` deprecated function and updated with `Elementor\Core\Schemes\Color`
+* Update: MA Toggle Content - Label field cann't change issue fixed, fixed Icon picker issue also.
+* Dependency: Stratus Theme supports given
+* Fixed: Display Conditions not working issue fixed
+* Fixed: Image filter gallery Image source not getting issue fixed
+* Fixed: Removed "Master Addons for Elementor" text on Editor Breakpoints
+
+= 1.6.4 (30-05-2021) =
+* Fixed: Many "MA Icons" icons showing issue fixed.Thanks to @slipperyman, Support URL: https://wordpress.org/support/topic/many-ma-icons/
+* Added: Floating Effect was removed, it's added again to work smoothly.
+
+= 1.6.3 (30-05-2021) =
+* Updated: Team Slider, Image Carousel Arrows & Pagination re-structured. Outside arrows not working issue fixed
+* Fixed: Oceanwp theme conflicts with bootstrap.min.css file issue fixed
+* Fixed: Animated Gradient - Add New button not working issue fixed. Thanks @oscarlopem, Support URL: https://wordpress.org/support/topic/animated-gradient-background-does-not-work/
+* Updated: MA Icon not showing on Page/Post Editor. Conflicting with "Elements Kit" plugin issue fixed
+
+= 1.6.2 (25-04-2021) =
+* Fixed: Admin area text "Master Addons for ElementorMaster Addons" for network levels issue fixed. Thanks @sneoo4, Support URL: https://wordpress.org/support/topic/text-master-addons-for-elementormaster-addons-appear-in-admin-area/
+
+
+= 1.6.1 (24-04-2021) =
+* Fixed: Mega Menu REST API data not saving issue fixed. Thanks @toki666, Support URL:https://wordpress.org/support/topic/mega-menu-not-save
+* Fixed: Mega Menu not working issue fixed
+* Fixed: Dual Heading: Description alignment not working
+* Fixed: Cross-Site Scripting(XSS) for widget issue fixed - Dual Heading, Accordion, Animated Headlines, Gradient Headline, Blog, Flipbox, Image Carousel, Image Hover Effects, Team Members Slider,
+* Fixed: Timeline: Icon not working issue fixed
+* Updated: MA Search color not working issue fixed. Border, Padding added for Search Icon
+* Fixed: Debug warnings 'thumbnail_size' for Image Hover Effect, Team Member issue fixed
+* Fixed: "News Ticker" content not showing as slide. When hover there is a URL but no text issue fixed
+* Fixed: "Dual Heading" Description alignment not working issue fixed
+* Fixed: "Team Slider" - overlapping content on Fade Effect for Team Carousel issue fixed
+* Fixed: "Team Slider" - Style>Position not working issue fixed
+
+
+= 1.6.0 (27-03-2021) =
+* Fixed: Dynamic Tags not working issue fixed
+* Fixed: Tooltip styles broken issue fixed
+* Fixed: Dashboard Text upper menu issue fixed
+* Fixed: Timeline - Custom Timline Date not showing issue fixed
+
+= 1.5.9 (11-03-2021) =
+* Fixed: Menu Title not showing issue fixed
+
+= 1.5.8 (10-03-2021) =
+* Fixed: Form Addons and Marketing addons not found on Elementor Panel issue fixed.
+* Added: White Label Options added for Developer Plans only feature.
+* Added: System Information tab added on Settings panel. It has all necessary informations about current website. Copy to clipboard added for faster support of list of Active plugins.
+* Fixed: Advanced Accordion default padding issue fixed.
+* Fixed: MA Image Carousel - Column not working issue fixed
+* Compatibility: Latest WordPress v5.7 and Elementor v3.1.4
+
 = 1.5.7 (28-02-2021) =
 * Updated: 'jquery-slick' updated with 'Swiper Slider' library. Updated Widgets - MA Blog, MA Slider, MA Gallery Slider, MA Twitter Slider, MA Timeline etc
 * Added: New Element added "Advanced Image".

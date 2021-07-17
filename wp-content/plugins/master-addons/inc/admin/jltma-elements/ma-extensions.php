@@ -155,6 +155,27 @@ if (!class_exists('JLTMA_Addon_Extensions')) {
                             'tuts_url'      => ''
                         ],
                         // [
+                        //     'key'           => 'glassmorphism',
+                        //     'title'         => esc_html__('Glassmorphism', MELA_TD),
+                        //     'demo_url'      => '',
+                        //     'docs_url'      => '',
+                        //     'tuts_url'      => ''
+                        // ],
+                        // [
+                        //     'key'           => 'icons-extended',
+                        //     'title'         => esc_html__('Icons Manager', MELA_TD),
+                        //     'demo_url'      => '',
+                        //     'docs_url'      => '',
+                        //     'tuts_url'      => ''
+                        // ],
+                        // [
+                        //     'key'           => 'sticky',
+                        //     'title'         => esc_html__('Sticky', MELA_TD),
+                        //     'demo_url'      => '',
+                        //     'docs_url'      => '',
+                        //     'tuts_url'      => ''
+                        // ],
+                        // [
                         //     'key'           => 'content-protection',
                         //     'title'         => esc_html__('Content Protection', MELA_TD),
                         //     'demo_url'      => '',

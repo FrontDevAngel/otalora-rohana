@@ -67,3 +67,42 @@ add_action( 'wvs_pro_reset_product_attributes', 'wvs_clear_transient' );
 add_action( 'woocommerce_product_after_variable_attributes', 'wvs_install_woo_variation_gallery_notice', 10, 3 );
 
 add_action( 'wp_ajax_install_woo_variation_gallery', 'wvs_install_woo_variation_gallery' );
+
+
+// WPML Support
+add_action( 'wvs_global_attribute_column', function ( $column, $term_id, $taxonomy, $attribute, $fields, $available_types ) {
+	if ( class_exists( 'SitePress' ) ) {
+
+		global $sitepress;
+
+		$keys = wp_list_pluck( $fields, 'id' );
+		// $keys = array_column($fields, 'id');
+
+		foreach ( $keys as $key ) {
+			$value = sanitize_text_field( get_term_meta( $term_id, $key, true ) );
+			// $original_element_id = $sitepress->get_original_element_id( $term_id, 'tax_' . $taxonomy );
+			$trid         = $sitepress->get_element_trid( $term_id, 'tax_' . $taxonomy );
+			$translations = $sitepress->get_element_translations( $trid, 'tax_' . $taxonomy );
+
+			$current_lang = $sitepress->get_current_language();
+			$default_lang = $sitepress->get_default_language();
+
+			if ( $translations && empty( $value ) ) {
+				// source_language_code
+				$translation = array_values( array_filter( $translations, function ( $translation ) {
+					return isset( $translation->original ) && ! empty( $translation->original );
+				} ) );
+
+				$translation = array_shift( $translation );
+
+				if ( empty( $value ) && $translation ) {
+					$original_term_id = $translation->term_id;
+					$original_value   = sanitize_text_field( get_term_meta( $original_term_id, $key, true ) );
+					// Copy term meta from original
+					update_term_meta( $term_id, $key, $original_value );
+				}
+			}
+
+		}
+	}
+}, 10, 6 );

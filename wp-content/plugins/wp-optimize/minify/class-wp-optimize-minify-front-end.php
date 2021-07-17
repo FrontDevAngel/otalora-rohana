@@ -30,6 +30,10 @@ class WP_Optimize_Minify_Front_End {
 	public function __construct() {
 		// Main process
 		add_action('wp', array($this, 'init'));
+		
+		// Beaver builder
+		add_action('fl_builder_after_save_layout', array('WP_Optimize_Minify_Cache_Functions', 'reset'));
+
 		// extra_preload_headers is currently not available to users
 		// add_action('send_headers', array($this, 'extra_preload_headers'));
 	}
@@ -903,7 +907,7 @@ class WP_Optimize_Minify_Front_End {
 
 		$exclude_js = array_map('trim', explode("\n", trim($wpo_minify_options['exclude_js'])));
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_js);
-		$async_js = array_map('trim', explode("\n", trim($wpo_minify_options['async_js'])));
+		$async_js = trim($wpo_minify_options['async_js']) ? array_map('trim', explode("\n", trim($wpo_minify_options['async_js']))) : array();
 		$scripts = clone $wp_scripts;
 		$scripts->all_deps($scripts->queue);
 		$footer = array();
@@ -1129,7 +1133,7 @@ class WP_Optimize_Minify_Front_End {
 		$wp_domain = trim(str_ireplace(array('http://', 'https://'), '', trim(site_url(), '/')));
 		$exclude_js = array_map('trim', explode("\n", trim($wpo_minify_options['exclude_js'])));
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_js);
-		$async_js = array_map('trim', explode("\n", trim($wpo_minify_options['async_js'])));
+		$async_js = trim($wpo_minify_options['async_js']) ? array_map('trim', explode("\n", trim($wpo_minify_options['async_js']))) : array();
 		$scripts = clone $wp_scripts;
 		$scripts->all_deps($scripts->queue);
 		$minify_js = $wpo_minify_options['enable_js_minification'];

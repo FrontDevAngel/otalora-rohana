@@ -203,6 +203,141 @@
 
 }
 
+/* System Info */
+.jltma-system-info .api-forms td:first-child {
+    width: 40%;
+}
+.jltma-system-info .api-forms{
+    padding:0 !important;
+}
+.jltma-system-info .api-forms table{
+    margin-bottom: 0 !important;
+}
+.jltma-system-info .api-settings-element{
+    padding: 0 30px 50px !important;
+}
+.jltma-system-info .api-forms tr td span{
+    font-size: 15px;
+    width: 20px;
+    height: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+.jltma-system-info .api-forms tr td span i{
+    line-height: 25px;
+}
+.jltma-system-info .api-forms .jltma-valid{
+    background: #9bc865;
+    color: #fff;
+}
+.jltma-system-info .api-forms .jltma-invalid {
+    background: red;
+    color: #fff;
+}
+
+/* White Label */
+.jltma-disabled {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.jltma-pro-badge {
+    position: absolute;
+    z-index: 333;
+    text-align: center;
+    padding-left: 36%;
+    font-size: 100px !important;
+    padding-top: 3%;
+}
+
+#jltma_white_label .jltma-white-label-notice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(200, 200, 200, 0.65);
+    -js-display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.jltma-white-label-notice-content {
+    background-color: #fff;
+    box-shadow: 0px 0px 50px rgba(0,0,0,0.13);
+    position: absolute;
+    top: 150px;
+    left: 300px;
+    width: 530px;
+    padding: 32px;
+    padding-bottom: 50px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 2;
+}
+
+.jltma-white-label-notice-logo img {
+    height: 100px;
+    width: 100px;
+    padding: 10px;
+    padding-top: 10px;
+}
+
+.jltma-white-label-notice-content h2,
+.jltma-swal-head {
+    display: inline-block;
+    font-size: 23px;
+    color: #252c59;
+    font-weight: 900;
+    font-family: "Red Hat Display";
+    text-align: center;
+    max-width: 350px;
+    line-height: 1;
+    margin: 0;
+    margin-bottom: 18px;
+}
+
+.jltma-white-label-notice-content h2 span {
+    color: #6814cd;
+    text-transform: uppercase;
+}
+
+.jltma-white-label-notice-content p {
+    font-size: 13px;
+    color: #474747;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 18px;
+}
+.jltma-white-label-notice-content em{
+    font-size:13px;
+    color: red;
+}
+.jltma-white-label-notice-content a.jltma-get-pro {
+    display: inline-block;
+    width: 120px;
+    padding: 5px 15px !important;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+
+
 /* Tabs and Contents */
 
 .master_addons .wp-tab-panel{
@@ -265,6 +400,7 @@
     flex-wrap: wrap;
     align-items: flex-start;
     margin: 0;
+    position: relative;
 }
 /* .master_addons_feature.jltma-center-align {
     height: 100%;
@@ -760,7 +896,8 @@
     line-height: 23px;
     margin: 0 0 25px;
 }
-.master_addons_feature button {
+.master_addons_feature button,
+.master_addons_feature a.jltma-get-pro {
     background-image: -moz-linear-gradient( 0deg, rgb(223,29,198) 0%, rgb(106,20,209) 100%);
     background-image: -webkit-linear-gradient( 0deg, rgb(223,29,198) 0%, rgb(106,20,209) 100%);
     background-image: -ms-linear-gradient( 0deg, rgb(223,29,198) 0%, rgb(106,20,209) 100%);
@@ -774,10 +911,18 @@
     line-height: 35px;
     padding: 0 15px;
     text-transform: uppercase;
+    text-decoration: none;
 }
+.master_addons_feature a.jltma-get-pro:hover{
+    background-image: -moz-linear-gradient(0deg, rgb(106, 20, 209) 0%, rgb(223, 29, 198) 100%);
+    background-image: -webkit-linear-gradient(0deg, rgb(106, 20, 209) 0%, rgb(223, 29, 198) 100%);
+    background-image: -ms-linear-gradient(0deg, rgb(106, 20, 209) 0%, rgb(223, 29, 198) 100%);
+}
+.master_addons_feature button:hover,
 .master_addons_feature button:focus,
 .master_addons_feature button:active,
 .master_addons_feature button:visited,
+.master-addons-supports-list a:hover,
 .master-addons-supports-list a:focus,
 .master-addons-supports-list a:active,
 .master-addons-supports-list a:visited {
@@ -1286,4 +1431,44 @@ a.thrd-party-plgin-dnld i:active{
 }
 .swal2-container.fade.in {
     opacity: 1;
+}
+.jltma-logo-handler {
+    max-width: 200px;
+    position: relative;
+}
+a.form-control.jltma-wl-plugin-logo {
+    height: auto;
+    padding: 0;
+    padding: 5px 14px 15px 15px;
+    text-decoration: none;
+}
+a.form-control.jltma-wl-plugin-logo i {
+    float: left;
+    font-size: 2rem;
+    height: auto;
+    width: auto;
+    margin-top: 4px;
+}
+a.form-control.jltma-wl-plugin-logo span {
+    display: inline-block;
+    margin: 0.5rem 0 0 .25rem;
+}
+a.form-control.jltma-wl-plugin-logo img {
+    padding: 10px 1px 0px 0px;
+}
+.jltma-remove-button {
+    background-color: red;
+    border-radius: 3rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    height: 20px;
+    width: 20px;
+    top: 0;
+    right: 0;
+    position: absolute;
+}
+.jltma-remove-button:hover {
+    color: #fff;
+    text-decoration: none;
 }

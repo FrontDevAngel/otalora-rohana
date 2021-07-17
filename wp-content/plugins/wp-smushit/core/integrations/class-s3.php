@@ -15,6 +15,7 @@ namespace Smush\Core\Integrations;
 
 use Amazon_S3_And_CloudFront;
 use DeliciousBrains\WP_Offload_Media\Items\Media_Library_Item;
+use Smush\App\Admin;
 use Smush\Core\Settings;
 use WP_Smush;
 
@@ -68,6 +69,8 @@ class S3 extends Abstract_Integration {
 		add_action( 'smush_file_exists', array( $this, 'maybe_download_file' ), 10, 3 );
 		// Fetch file and make sure it is returned back to S3 bucket.
 		add_action( 'smush_s3_integration_fetch_file', array( $this, 'fetch_file' ) );
+		// Remove .bak files on restore.
+		add_action( 'smush_s3_backup_remove', array( $this, 'remove_backup' ) );
 	}
 
 	/**************************************
@@ -186,14 +189,7 @@ class S3 extends Abstract_Integration {
 		// Do not display the notice on Bulk Smush Screen.
 		global $current_screen;
 
-		$allowed_pages = array(
-			'toplevel_page_smush',
-			'gallery_page_wp-smush-nextgen-bulk',
-			'nextgen-gallery_page_wp-smush-nextgen-bulk', // Different since NextGen 3.3.6.
-			'toplevel_page_smush-network',
-		);
-
-		if ( ! empty( $current_screen->base ) && ! in_array( $current_screen->base, $allowed_pages, true ) ) {
+		if ( ! empty( $current_screen->id ) && ! in_array( $current_screen->id, Admin::$plugin_pages, true ) && false === strpos( $current_screen->id, 'page_smush' ) ) {
 			return;
 		}
 
@@ -209,8 +205,8 @@ class S3 extends Abstract_Integration {
 
 		// Settings link.
 		$settings_link = is_multisite() && is_network_admin()
-			? network_admin_url( 'admin.php?page=smush' )
-			: menu_page_url( 'smush', false );
+			? network_admin_url( 'admin.php?page=smush-integrations' )
+			: menu_page_url( 'smush-integrations', false );
 
 		if ( WP_Smush::is_pro() ) {
 			/**
@@ -224,7 +220,7 @@ class S3 extends Abstract_Integration {
 				),
 				'<strong>',
 				'</strong>',
-				"<a href='{$settings_link}&view=integrations'><strong>",
+				"<a href='{$settings_link}'><strong>",
 				'</strong></a>'
 			);
 		} else {
@@ -239,7 +235,7 @@ class S3 extends Abstract_Integration {
 				),
 				'<strong>',
 				'</strong>',
-				'<a href=' . esc_url( 'https://premium.wpmudev.org/project/wp-smush-pro' ) . '><strong>',
+				'<a href=' . esc_url( 'https://wpmudev.com/project/wp-smush-pro' ) . '><strong>',
 				'</strong></a>'
 			);
 		}
@@ -286,7 +282,7 @@ class S3 extends Abstract_Integration {
 					'We are having trouble interacting with WP Offload Media, make sure the plugin is activated. Or you can %1$sreport a bug%2$s.',
 					'wp-smushit'
 				),
-				'<a href="' . esc_url( 'https://premium.wpmudev.org/contact' ) . '" target="_blank">',
+				'<a href="' . esc_url( 'https://wpmudev.com/contact' ) . '" target="_blank">',
 				'</a>'
 			);
 		} elseif ( ! $as3cf->is_plugin_setup() ) {
@@ -350,6 +346,52 @@ class S3 extends Abstract_Integration {
 			global $as3cf;
 			$as3cf->plugin_compat->enable_get_attached_file_copy_back_to_local();
 		}
+	}
+
+	/**
+	 * Remove the backup file from S3 when image is restored.
+	 *
+	 * @since 3.8.4
+	 *
+	 * @param int $attachment_id  Attachment ID.
+	 */
+	public function remove_backup( $attachment_id ) {
+		/**
+		 * Amazon_S3_And_CloudFront global.
+		 *
+		 * @var Amazon_S3_And_CloudFront $as3cf
+		 */
+		global $as3cf;
+
+		// If S3 offload global variable is not available, plugin is not active.
+		if ( ! is_object( $as3cf ) ) {
+			return;
+		}
+
+		// Get bucket details.
+		$bucket = $as3cf->get_setting( 'bucket' );
+		$region = $as3cf->get_setting( 'region' );
+
+		if ( is_wp_error( $region ) ) {
+			return;
+		}
+
+		$s3_object = $this->is_attachment_served_by_provider( $as3cf, $attachment_id );
+
+		// If we have plugin method available, us that otherwise check it ourselves.
+		if ( ! $s3_object || ( ! is_array( $s3_object ) && ! $s3_object instanceof Media_Library_Item ) ) {
+			return;
+		}
+
+		$objects_to_remove[] = array(
+			'Key' => is_array( $s3_object ) ? $s3_object['key'] : $s3_object->path(),
+		);
+
+		if ( ! method_exists( $as3cf, 'delete_objects' ) ) {
+			return;
+		}
+
+		$as3cf->delete_objects( $region, $bucket, $objects_to_remove );
 	}
 
 	/**************************************

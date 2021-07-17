@@ -50,6 +50,8 @@ class Backup extends Abstract_Module {
 	 *
 	 * Checks if there is a existing backup, else create one
 	 *
+	 * @todo Looks like all calls to this method in the plugin pass both params. Why are they optional?
+	 *
 	 * @param string $file_path      File path.
 	 * @param string $attachment_id  Attachment ID.
 	 */
@@ -68,6 +70,54 @@ class Backup extends Abstract_Module {
 		// Return file path if backup is disabled.
 		if ( ! $this->settings->get( 'backup' ) || ! WP_Smush::is_pro() ) {
 			return;
+		}
+
+		// Get the width & height of the original image size.
+		if ( ! empty( $attachment_id ) ) {
+			$meta      = wp_get_attachment_metadata( $attachment_id );
+			$imagesize = array( $meta['width'], $meta['height'] );
+		} else {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			$imagesize = @getimagesize( $file_path );
+		}
+
+		if ( ! $imagesize ) {
+			return;
+		}
+
+		/**
+		 * Filters the "BIG image" threshold value.
+		 *
+		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
+		 * used as max width and max height. The scaled down image will be used as the largest available size, including
+		 * the `_wp_attached_file` post meta value.
+		 *
+		 * Returning `false` from the filter callback will disable the scaling.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param int    $threshold     The threshold value in pixels. Default 2560.
+		 * @param array  $imagesize     {
+		 *     Indexed array of the image width and height in pixels.
+		 *
+		 *     @type int $0 The image width.
+		 *     @type int $1 The image height.
+		 * }
+		 * @param string $file          Full path to the uploaded image file.
+		 * @param int    $attachment_id Attachment post ID.
+		 */
+		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file_path, $attachment_id );
+
+		if ( $threshold ) {
+			list( $width, $height ) = $imagesize;
+
+			$size = $width > $height ? $width : $height;
+
+			if ( $size > $threshold ) {
+				// Skip creating backup and just add original for backup process.
+				$this->add_to_image_backup_sizes( $attachment_id, $file_path );
+				return;
+			}
 		}
 
 		$mod = WP_Smush::get_instance()->core()->mod;
@@ -173,7 +223,8 @@ class Backup extends Abstract_Module {
 		}
 
 		// Store the restore success/failure for Full size image.
-		$restored = $restore_png = false;
+		$restored    = false;
+		$restore_png = false;
 
 		// Process now.
 		$attachment_id = empty( $attachment ) ? absint( (int) $_POST['attachment_id'] ) : $attachment;
@@ -190,21 +241,21 @@ class Backup extends Abstract_Module {
 		 */
 		WP_Smush::get_instance()->core()->mod->webp->delete_images( $attachment_id );
 
+		// The scaled images' paths are re-saved when getting the original image.
+		// This avoids storing the S3's url in there.
+		add_filter( 'as3cf_get_attached_file', array( $this, 'skip_as3cf_url_get_attached_file' ), 10, 4 );
+
 		// Restore Full size -> get other image sizes -> restore other images.
 		// Get the Original Path.
 		$file_path = get_attached_file( $attachment_id );
 
 		// Add WordPress 5.3 support for -scaled images size.
 		if ( false !== strpos( $file_path, '-scaled.' ) && function_exists( 'wp_get_original_image_path' ) ) {
-			// The scaled images' paths are re-saved when getting the original image.
-			// This avoids storing the S3's url in there.
-			add_filter( 'as3cf_get_attached_file', array( $this, 'skip_as3cf_url_get_attached_file' ), 10, 4 );
-
 			$file_path = wp_get_original_image_path( $attachment_id, true );
-
-			// And go back to normal after retrieving the original path.
-			remove_filter( 'as3cf_get_attached_file', array( $this, 'skip_as3cf_url_get_attached_file' ), 10 );
 		}
+
+		// And go back to normal after retrieving the original path.
+		remove_filter( 'as3cf_get_attached_file', array( $this, 'skip_as3cf_url_get_attached_file' ), 10 );
 
 		// Get the backup path.
 		$backup_sizes = get_post_meta( $attachment_id, '_wp_attachment_backup_sizes', true );
@@ -239,7 +290,13 @@ class Backup extends Abstract_Module {
 			$backup_path = is_array( $backup_path ) && ! empty( $backup_path['file'] ) ? $backup_path['file'] : $backup_path;
 		}
 
-		$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+		$is_bak_file = false === strpos( $backup_path, '.bak' );
+
+		if ( $is_bak_file ){
+			$backup_full_path = $backup_path;
+		} else {
+			$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+		}
 
 		// Finally, if we have the backup path, perform the restore operation.
 		if ( ! empty( $backup_full_path ) ) {
@@ -259,16 +316,20 @@ class Backup extends Abstract_Module {
 			} else {
 				// If file exists, corresponding to our backup path.
 				// Restore.
-				$restored = @copy( $backup_full_path, $file_path );
+				if ( ! $is_bak_file ) {
+					$restored = @copy( $backup_full_path, $file_path );
+				} else {
+					$restored = true;
+				}
 
 				// Remove the backup, if we were able to restore the image.
 				if ( $restored ) {
-
 					// Update backup sizes.
 					$this->remove_from_backup_sizes( $attachment_id, '', $backup_sizes );
 
 					// Delete the backup.
 					@unlink( $backup_full_path );
+					do_action( 'smush_s3_backup_remove', $attachment_id );
 				}
 			}
 		} elseif ( file_exists( $file_path . '_backup' ) ) {
@@ -278,10 +339,8 @@ class Backup extends Abstract_Module {
 
 		// Prevent the image from being offloaded during 'wp_generate_attachment_metadata'.
 		add_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
-
 		// Generate all other image size, and update attachment metadata.
 		$metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
-
 		// Aaand go back to normal.
 		remove_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
 

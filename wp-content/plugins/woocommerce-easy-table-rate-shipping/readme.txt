@@ -3,8 +3,8 @@ Contributors: merlinmonmouth
 Donate link: https://www.jem-products.com
 Tags: free shipping, table rate shipping, woocommerce shipping, woocommerce table rate shipping, woocommerce tiered shipping, table rate shipping, shipping, country, shipping by weight, weight based shipping, cart total, shipping by price, woocommerce, table rate, shipping, calculator
 Requires at least: 4.0
-Tested up to: 5.6
-Stable tag: 2.1.0
+Tested up to: 5.7.2
+Stable tag: 2.1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ We support ALL WooCommerce countries and currencies. If it is in WooCommerce, th
 
 
 == Changelog ==
+
+= 2.1.1 =
+WordPress and WooCommerce compatability checks
 
 = 2.1.0 =
 WordPress 5.6 and WooCommerce 4.8.0 Compatability checks

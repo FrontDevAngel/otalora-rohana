@@ -66,15 +66,14 @@ if (!class_exists('Master_Addons_Promotions')) {
             }
 
             $blog_update_message = sprintf(
-                __('%1$s got <strong>Huge Updates</strong> %2$s %3$s %4$s %5$s %6$s <br> <strong>Check Changelogs for </strong> <a href="%7$s" target="__blank">%8$s</a>', MELA_TD),
+                __('%1$s got <strong>some Updates </strong> %2$s %3$s %4$s %5$s %6$s <br> <strong>Check Changelogs for </strong> <a href="%7$s" target="__blank">%8$s</a>', MELA_TD),
 
                 '<strong>' . esc_html__('Master Addons for Elementor v', MELA_TD) . MELA_VERSION . '</strong>',
-                '<br><br>' . __('✅ Fully re-coded with optimized codes', MELA_TD) . '<br>',
-                __('✅ <b>Gallery Slider</b> updated ', MELA_TD) . '<br>',
-                __('✅ All Slick Slider Library updated with Swiper Slider', MELA_TD) . '<br>',
-                __('✅ Blog and Filterable Gallery Updated', MELA_TD) . '<br>',
-                // __( '✅ <b>Updated:</b> Animated Headlines, Creative Buttons, Team Members, Infobox, Progressbar etc', MELA_TD ) . '<br>',
-                __('✅ Latest WordPress v5.6 Elementor Compatibility & better UX', MELA_TD) . '<br>',
+                '<br><br>' . __('✅ Custom Breakpoints plugin updated with latest Elementor support', MELA_TD) . '<br>',
+                __('✅ Deprecated "Typography" and "Color Schemes" code updated with latest standards ', MELA_TD) . '<br>',
+                __('✅ MA Toggle Content - Label field can not change issue fixed, fixed Icon picker issue also.', MELA_TD) . '<br>',
+                __('✅ Display Conditions not working issue fixed', MELA_TD) . '<br>',
+                __('✅ Removed "Master Addons for Elementor" text on Editor Breakpoints', MELA_TD) . '<br>',
                 esc_url_raw('https://master-addons.com/changelogs/'),
                 esc_html__('More Details', MELA_TD)
             );
@@ -345,7 +344,7 @@ if (!class_exists('Master_Addons_Promotions')) {
             <div data-dismissible="<?php echo esc_attr($notice_key); ?>" id="<?php echo esc_attr($notice_key); ?>" class="jltma-admin-notice updated notice notice-success is-dismissible">
                 <div id="master-addons-bfcm-upgrade-notice" class="master-addons-review-notice">
                     <div class="master-addons-review-thumbnail">
-                        <img src="<?php echo  esc_attr(MELA_IMAGE_DIR) . 'logo.png' ?>" alt="Master Addons">
+                        <img src="<?php echo  esc_url(MELA_IMAGE_DIR) . 'logo.png' ?>" alt="Master Addons">
                     </div>
                     <div class="master-addons-review-text">
                         <h3><?php _e('<strong>Black Friday & Cyber Monday</strong> Deals - <strong>50% Off</strong> !', MELA_TD) ?></h3>

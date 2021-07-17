@@ -232,7 +232,6 @@ class Image_Carousel extends Widget_Base
 			]
 		);
 
-
 		$this->add_control(
 			'title_html_tag',
 			[
@@ -642,19 +641,19 @@ class Image_Carousel extends Widget_Base
 		$this->add_control(
 			'free_mode_momentum_bounce_ratio',
 			[
-				'label' 		=> __('Bounce Ratio', MELA_TD),
-				'description'	=> __('Higher value produces larger momentum bounce effect.', MELA_TD),
-				'type' 			=> Controls_Manager::SLIDER,
-				'range' 		=> [
+				'label'       => __('Bounce Ratio', MELA_TD),
+				'description' => __('Higher value produces larger momentum bounce effect.', MELA_TD),
+				'type'        => Controls_Manager::SLIDER,
+				'range'       => [
 					'px' 		=> [
-						'min' 	=> 0,
-						'max' 	=> 5,
-						'step'	=> 0.1,
+						'min'  => 0,
+						'max'  => 5,
+						'step' => 0.1,
 					],
 				],
 				'condition' => [
-					'free_mode!' => '',
-					'free_mode_momentum!' => '',
+					'free_mode!'                 => '',
+					'free_mode_momentum!'        => '',
 					'free_mode_momentum_bounce!' => '',
 				],
 				'frontend_available' => true,
@@ -723,8 +722,8 @@ class Image_Carousel extends Widget_Base
 					'right' 	=> __('Right', MELA_TD),
 				],
 				'condition'		=> [
-					'carousel_arrows' 	=> 'yes',
-					'arrows_placement!' 	=> 'inside',
+					'carousel_arrows'   => 'yes',
+					'arrows_placement' => 'inside',
 				]
 			]
 		);
@@ -736,20 +735,20 @@ class Image_Carousel extends Widget_Base
 		$this->add_control(
 			'loop',
 			[
-				'label'   => esc_html__('Infinite Loop', MELA_TD),
-				'type'    => Controls_Manager::SWITCHER,
-				'default' => 'yes',
-				'frontend_available' 	=> true,
+				'label'              => esc_html__('Infinite Loop', MELA_TD),
+				'type'               => Controls_Manager::SWITCHER,
+				'default'            => 'yes',
+				'frontend_available' => true,
 			]
 		);
 
 		$this->add_control(
 			'slide_change_resize',
 			[
-				'type' 			=> Controls_Manager::SWITCHER,
-				'label' 		=> __('Trigger Resize on Slide', MELA_TD),
-				'description'	=> __('Some widgets inside post skins templates might require triggering a window resize event when changing slides to display correctly.', MELA_TD),
-				'default' 		=> '',
+				'type'               => Controls_Manager::SWITCHER,
+				'label'              => __('Trigger Resize on Slide', MELA_TD),
+				'description'        => __('Some widgets inside post skins templates might require triggering a window resize event when changing slides to display correctly.', MELA_TD),
+				'default'            => '',
 				'frontend_available' => true,
 			]
 		);
@@ -758,8 +757,8 @@ class Image_Carousel extends Widget_Base
 		$this->add_control(
 			'carousel_pagination',
 			[
-				'label' 		=> __('Pagination', MELA_TD),
-				'type' 			=> Controls_Manager::POPOVER_TOGGLE,
+				'label'              => __('Pagination', MELA_TD),
+				'type'               => Controls_Manager::POPOVER_TOGGLE,
 				'frontend_available' => true
 			]
 		);
@@ -769,16 +768,16 @@ class Image_Carousel extends Widget_Base
 		$this->add_control(
 			'pagination_position',
 			[
-				'type' 			=> Controls_Manager::SELECT,
-				'label' 		=> __('Position', MELA_TD),
-				'default'		=> 'inside',
-				'options' 		=> [
-					'inside' 		=> __('Inside', MELA_TD),
-					'outside' 		=> __('Outside', MELA_TD),
+				'type'    => Controls_Manager::SELECT,
+				'label'   => __('Position', MELA_TD),
+				'default' => 'inside',
+				'options' => [
+					'inside'  => __('Inside', MELA_TD),
+					'outside' => __('Outside', MELA_TD),
 				],
-				'frontend_available' 	=> true,
-				'condition'		=> [
-					'carousel_pagination'         => 'yes',
+				'frontend_available' => true,
+				'condition'          => [
+					'carousel_pagination' => 'yes',
 				]
 			]
 		);
@@ -786,15 +785,15 @@ class Image_Carousel extends Widget_Base
 		$this->add_control(
 			'pagination_type',
 			[
-				'type' 			=> Controls_Manager::SELECT,
-				'label' 		=> __('Type', MELA_TD),
-				'default'		=> 'bullets',
-				'options' 		=> [
-					'bullets' 		=> __('Bullets', MELA_TD),
-					'fraction' 		=> __('Fraction', MELA_TD),
+				'type'    => Controls_Manager::SELECT,
+				'label'   => __('Type', MELA_TD),
+				'default' => 'bullets',
+				'options' => [
+					'bullets'  => __('Bullets', MELA_TD),
+					'fraction' => __('Fraction', MELA_TD),
 				],
 				'condition'		=> [
-					'carousel_pagination'         => 'yes',
+					'carousel_pagination' => 'yes',
 				],
 				'frontend_available' => true,
 			]
@@ -803,15 +802,15 @@ class Image_Carousel extends Widget_Base
 		$this->add_control(
 			'carousel_pagination_clickable',
 			[
-				'type' 			=> Controls_Manager::SWITCHER,
-				'label' 		=> __('Clickable', MELA_TD),
-				'default' 		=> 'yes',
-				'return_value' 	=> 'yes',
-				'condition' => [
-					'carousel_pagination'         => 'yes',
-					'pagination_type'       		=> 'bullets'
+				'type'         => Controls_Manager::SWITCHER,
+				'label'        => __('Clickable', MELA_TD),
+				'default'      => 'yes',
+				'return_value' => 'yes',
+				'condition'    => [
+					'carousel_pagination' => 'yes',
+					'pagination_type'     => 'bullets'
 				],
-				'frontend_available' 	=> true,
+				'frontend_available' => true,
 			]
 		);
 		$this->end_popover();
@@ -845,41 +844,41 @@ class Image_Carousel extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'carousel_arrows_position',
-			[
-				'type' 			=> Controls_Manager::SELECT,
-				'label' 		=> __('Position', MELA_TD),
-				'default'		=> 'middle',
-				'options' 		=> [
-					'top' 		=> __('Top', MELA_TD),
-					'middle' 	=> __('Middle', MELA_TD),
-					'bottom' 	=> __('Bottom', MELA_TD),
-				],
-				'condition'		=> [
-					'carousel_arrows'         => 'yes',
-					'carousel_direction' => 'horizontal',
-				]
-			]
-		);
+		// $this->add_control(
+		// 	'carousel_arrows_position',
+		// 	[
+		// 		'type' 			=> Controls_Manager::SELECT,
+		// 		'label' 		=> __('Position', MELA_TD),
+		// 		'default'		=> 'middle',
+		// 		'options' 		=> [
+		// 			'top' 		=> __('Top', MELA_TD),
+		// 			'middle' 	=> __('Middle', MELA_TD),
+		// 			'bottom' 	=> __('Bottom', MELA_TD),
+		// 		],
+		// 		'condition'		=> [
+		// 			'carousel_arrows'         => 'yes',
+		// 			'carousel_direction' => 'horizontal',
+		// 		]
+		// 	]
+		// );
 
-		$this->add_control(
-			'carousel_arrows_position_vertical',
-			[
-				'type' 			=> Controls_Manager::SELECT,
-				'label' 		=> __('Position', MELA_TD),
-				'default'		=> 'center',
-				'options' 		=> [
-					'left' 		=> __('Left', MELA_TD),
-					'center' 	=> __('Center', MELA_TD),
-					'right' 	=> __('Right', MELA_TD),
-				],
-				'condition'		=> [
-					'carousel_arrows'         => 'yes',
-					'carousel_direction' => 'vertical'
-				]
-			]
-		);
+		// $this->add_control(
+		// 	'carousel_arrows_position_vertical',
+		// 	[
+		// 		'type' 			=> Controls_Manager::SELECT,
+		// 		'label' 		=> __('Position', MELA_TD),
+		// 		'default'		=> 'center',
+		// 		'options' 		=> [
+		// 			'left' 		=> __('Left', MELA_TD),
+		// 			'center' 	=> __('Center', MELA_TD),
+		// 			'right' 	=> __('Right', MELA_TD),
+		// 		],
+		// 		'condition'		=> [
+		// 			'carousel_arrows'    => 'yes',
+		// 			'carousel_direction' => 'vertical'
+		// 		]
+		// 	]
+		// );
 
 
 		$this->add_responsive_control(
@@ -1598,7 +1597,6 @@ class Image_Carousel extends Widget_Base
 							]
 						]);
 
-
 						$tag = 'div';
 						$image_alt = esc_html($item['title']) . esc_html($item['subtitle']);
 						$title_html_tag = ($settings['title_html_tag']) ? $settings['title_html_tag'] : 'h3';
@@ -1617,14 +1615,15 @@ class Image_Carousel extends Widget_Base
 						// Lightbox Conditions
 						if ($settings['jltma_image_carousel_enable_lightbox'] == "yes") {
 
+
+							$anchor_type = (empty($item['link']['url']) ? 'jltma-click-anywhere' : 'jltma-click-icon');
+
+							$thumbnail_src = wp_get_attachment_image_src($item['jltma_image_carousel_img']['id'], 'full');
+
+							if ($thumbnail_src)
+								$thumbnail_src = $thumbnail_src[0];
+
 							if ($settings['jltma_image_carousel_lightbox_library'] === 'fancybox') {
-
-								$anchor_type = (empty($item['link']['url']) ? 'jltma-click-anywhere' : 'jltma-click-icon');
-
-								$thumbnail_src = wp_get_attachment_image_src($item['jltma_image_carousel_img']['id'], 'full');
-
-								if ($thumbnail_src)
-									$thumbnail_src = $thumbnail_src[0];
 
 								$this->add_render_attribute([
 									$repeater_key => [
@@ -1645,7 +1644,7 @@ class Image_Carousel extends Widget_Base
 								$this->add_render_attribute([
 									$repeater_key => [
 										'class' => [
-											'jltma-lightbox-item' . $anchor_type
+											'jltma-lightbox-item-' . isset($anchor_type) ? $anchor_type : ""
 										],
 										'data-thumb' => $thumbnail_src,
 										'href' => $item['jltma_image_carousel_img']['url'],
@@ -1698,9 +1697,9 @@ class Image_Carousel extends Widget_Base
 				$settings = $this->get_settings_for_display();
 				?>
 				<?php if (isset($item['title']) && $item['title']) { ?>
-					<<?php echo $settings['title_html_tag']; ?> class="jltma-image-carousel-title">
-						<?php echo $item['title']; ?>
-					</<?php echo $settings['title_html_tag']; ?>>
+					<<?php echo tag_escape($settings['title_html_tag']); ?> class="jltma-image-carousel-title">
+						<?php echo esc_html($item['title']); ?>
+					</<?php echo tag_escape($settings['title_html_tag']); ?>>
 				<?php } ?>
 
 				<?php if (isset($item['subtitle']) && $item['subtitle']) { ?>
@@ -1713,16 +1712,16 @@ class Image_Carousel extends Widget_Base
 			}
 
 			// Render Header
-			private function jltma_render_image_carousel_footer($settings)
-			{
-
-				$settings = $this->get_settings_for_display(); ?>
+			private function jltma_render_image_carousel_footer()
+			{ ?>
 
 			</div> <!-- swiper-wrapper -->
 
-		</div>
-		<!--/.jltma-logo-slider-->
 
+
+
+		</div>
+		<!--/.ma-image-carousel-->
 
 		<?php
 				$this->render_swiper_navigation();

@@ -395,16 +395,42 @@ if (is_plugin_active_for_network('master-addons/master-addons.php') || is_plugin
 	define("JLTMA_NETWORK_ACTIVATED", false);
 }
 
+
 // Wordpress function 'get_site_option' and 'get_option'
-function jltma_get_options($option_name, $default = "")
+// function jltma_get_options($option_name, $default = "")
+// {
+// 	if (JLTMA_NETWORK_ACTIVATED == true) {
+// 		// Get network site option
+// 		return get_site_option($option_name, $default);
+// 	} else {
+// 		// Get blog option
+// 		return get_option($option_name, $default);
+// 	}
+// }
+
+function jltma_get_options($key, $network_override = true)
 {
-	if (JLTMA_NETWORK_ACTIVATED == true) {
-		// Get network site option
-		return get_site_option($option_name, $default);
+	if (is_network_admin()) {
+		$value = get_site_option($key);
+	} elseif (!$network_override && is_multisite()) {
+		$value = get_site_option($key);
+	} elseif ($network_override && is_multisite()) {
+		$value = get_option($key);
+		$value = (false === $value || (is_array($value) && in_array('disabled', $value))) ? get_site_option($key) : $value;
 	} else {
-		// Get blog option
-		return get_option($option_name, $default);
+		$value = get_option($key);
 	}
+
+	return $value;
+}
+
+function jltma_check_options($option_name)
+{
+	if (isset($option_name)) {
+		$option_name = $option_name;
+	}
+
+	return isset($option_name) ? $option_name : false;
 }
 
 // Wordpress function 'update_site_option' and 'update_option'
@@ -419,15 +445,87 @@ function jltma_update_options($option_name, $option_value)
 	}
 }
 
-function jltma_pretty_number( $x = 0 ) {
+function jltma_pretty_number($x = 0)
+{
 	$x = (int) $x;
 
-	if ( $x > 1000000 ) {
-		return floor( $x / 1000000 ) . 'M';
+	if ($x > 1000000) {
+		return floor($x / 1000000) . 'M';
 	}
 
-	if ( $x > 10000 ) {
-		return floor( $x / 1000 ) . 'k';
+	if ($x > 10000) {
+		return floor($x / 1000) . 'k';
 	}
 	return $x;
+}
+
+
+function jltma_get_site_domain()
+{
+	return str_ireplace('www.', '', parse_url(home_url(), PHP_URL_HOST));
+}
+
+function jltma_human_readable_num($size)
+{
+	$l    = substr($size, -1);
+	$ret  = substr($size, 0, -1);
+	$byte = 1024;
+
+	switch (strtoupper($l)) {
+		case 'P':
+			$ret *= 1024;
+		case 'T':
+			$ret *= 1024;
+		case 'G':
+			$ret *= 1024;
+		case 'M':
+			$ret *= 1024;
+		case 'K':
+			$ret *= 1024;
+	}
+	return $ret;
+}
+
+function jltma_get_environment_info()
+{
+	// Check if cURL is isntalled
+	$curl_version = '';
+	if (function_exists('curl_version')) {
+		$curl_version = curl_version();
+		$curl_version = $curl_version['version'] . ', ' . $curl_version['ssl_version'];
+	}
+
+	// WP memory limit.
+	$wp_memory_limit = jltma_human_readable_num(WP_MEMORY_LIMIT);
+	if (function_exists('memory_get_usage')) {
+		$wp_memory_limit = max($wp_memory_limit, jltma_human_readable_num(@ini_get('memory_limit')));
+	}
+
+
+	return array(
+		'home_url'                  => get_option('home'),
+		'site_url'                  => get_option('siteurl'),
+		'version'                   => BDTEP_VER,
+		'wp_version'                => get_bloginfo('version'),
+		'wp_multisite'              => is_multisite(),
+		'wp_memory_limit'           => $wp_memory_limit,
+		'wp_debug_mode'             => (defined('WP_DEBUG') && WP_DEBUG),
+		'wp_cron'                   => !(defined('DISABLE_WP_CRON') && DISABLE_WP_CRON),
+		'language'                  => get_locale(),
+		'external_object_cache'     => wp_using_ext_object_cache(),
+		'server_info'               => isset($_SERVER['SERVER_SOFTWARE']) ? wp_unslash($_SERVER['SERVER_SOFTWARE']) : '',
+		'php_version'               => phpversion(),
+		'php_post_max_size'         => jltma_human_readable_num(ini_get('post_max_size')),
+		'php_max_execution_time'    => ini_get('max_execution_time'),
+		'php_max_input_vars'        => ini_get('max_input_vars'),
+		'curl_version'              => $curl_version,
+		'suhosin_installed'         => extension_loaded('suhosin'),
+		'max_upload_size'           => wp_max_upload_size(),
+		'default_timezone'          => date_default_timezone_get(),
+		'fsockopen_or_curl_enabled' => (function_exists('fsockopen') || function_exists('curl_init')),
+		'soapclient_enabled'        => class_exists('SoapClient'),
+		'domdocument_enabled'       => class_exists('DOMDocument'),
+		'gzip_enabled'              => is_callable('gzopen'),
+		'mbstring_enabled'          => extension_loaded('mbstring'),
+	);
 }

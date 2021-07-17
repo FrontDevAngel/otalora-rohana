@@ -3,13 +3,13 @@
   Plugin Name: Woocommerce Table Rate Shipping
   Plugin URI: http://www.jem-products.com/plugins.html
   Description: Provides shipping for Woocommerce based upon a table of rates. Unlimited countries.
-  Version: 2.1.0
+  Version: 2.1.1
   Author: JEM Plugins
   Author URI: http://www.jem-products.com
   Requires at least: 4.0
-  Tested up to: 5.6
+  Tested up to: 5.7.2
   WC requires at least: 3.0
-  WC tested up to: 4.8.0
+  WC tested up to: 5.3.0
  */
 
 //test
